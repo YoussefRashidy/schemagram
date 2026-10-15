@@ -36,7 +36,7 @@ def renderERDiagram(data ,out: str , engine: str = 'dot') -> None:
     def renderEntity(entity: Entity) :
         entityId = getId()
         peripheries = "2" if entity.isWeak else "1"
-        graph.node(entityId,label=entity.name,shape='box',peripheries=peripheries)
+        graph.node(entityId,label=entity.name,shape='box',peripheries=peripheries,style='filled', fillcolor='gray', color='gray',)
         entitiesIds[entity.name] = entityId
         for attribute in entity.attributes:
             renderAttribute(attribute, entityId)
@@ -54,7 +54,7 @@ def renderERDiagram(data ,out: str , engine: str = 'dot') -> None:
     def renderRelationship(relationship : Relationship):
         relationshipId = getId()
         peripheries = "2" if relationship.isIdentifying else "1"
-        graph.node(relationshipId, label=relationship.name, shape='diamond', peripheries=peripheries)
+        graph.node(relationshipId, label=relationship.name, shape='diamond', peripheries=peripheries,style='filled', fillcolor='gray', color='gray')
         for p in relationship.participants:
             penwidth = "2" if p.isTotalParticipation else "1"
             label = f"{p.role} ({p.cardinality})" if p.role else p.cardinality
