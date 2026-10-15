@@ -69,32 +69,51 @@ def renderERDiagram(data ,out: str , engine: str = 'dot') -> None:
     graph.render(out, cleanup=True)
 
 
-# with open('scratch.json', 'r') as f:
-#     data = json.load(f)
-#     renderERDiagram(data,"res")
-DESCRIPTION = """
-We are designing a database for a university.
+def main() -> None:
+    print("=== ER Diagram Generator ===")
+    print("Choose your input format:")
+    print("1. JSON file")
+    print("2. Text description file")
+    choice = input("Enter your choice (1/2): ").strip()
 
-Students are identified by a student ID. For each student we store their name (first and last), date of birth, several email addresses, and a home address made of a street (street number and street name), a city, and a ZIP code. Each student majors in exactly one department, and a department has many students.
+    if choice not in ("1", "2"):
+        print("Invalid choice. Please enter 1 or 2.")
+        return
 
-Departments are identified by a department code and have a name and several office locations. Professors work for exactly one department, while a department employs many professors.
+    file_name = input("Enter the input file name: ").strip()
 
-Professors are identified by an employee ID. We store their name (first and last), their rank, a salary, several phone numbers, and their office hours, which can be several per professor and each consist of a day, a start time and an end time. A professor can supervise other professors, and each professor has at most one supervisor.
+    try:
+        if choice == "1":
+            with open(file_name, "r", encoding="utf-8") as f:
+                jsonData = json.load(f)
 
-Courses are identified by a course code and have a title and a number of credit hours. A course can have other courses as prerequisites, and a course can be a prerequisite for many courses.
+        else:
+            with open(file_name, "r", encoding="utf-8") as f:
+                description = f.read()
 
-Every course is offered in sections. A section does not exist without its course and is identified only within its course by the combination of its semester and its section number. A section also has a schedule and a maximum capacity. Each course has many sections.
+            rawData = generateJson(description)
+            jsonData = json.loads(rawData)
 
-Each section is taught by exactly one professor, and a professor can teach many sections. Each section meets in one classroom. Classrooms have a building, a room number and a capacity, and the room number is only unique within a building. A classroom can host many sections.
+        output_name = input(
+            "Enter the output file name (without extension): "
+        ).strip()
 
-Students enroll in sections. A student can enroll in many sections and a section has many students. Each enrollment records the enrollment date and the final grade.
+        if not output_name:
+            output_name = "er_diagram"
 
-Finally, professors recommend textbooks for courses. Textbooks are identified by their ISBN and have a title, a publisher, and several authors. A professor can recommend many textbooks for many courses, and each recommendation records the edition number.
-"""
+        renderERDiagram(jsonData, output_name)
+        print(f"ER diagram generated successfully: {output_name}.png")
 
-rawData = generateJson(DESCRIPTION)
-jsonData = json.loads(rawData)
-renderERDiagram(jsonData, "university_er_diagram")
+    except FileNotFoundError:
+        print(f"Error: File '{file_name}' not found.")
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON data. {e}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+if __name__ == "__main__":
+    main()
 
 
 
