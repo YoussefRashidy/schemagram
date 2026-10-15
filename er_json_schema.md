@@ -97,25 +97,11 @@ Rules:
 }
 ```
 
-| Key | Type | Required | Default | Notes |
-|---|---|---|---|---|
-| `entity` | string | yes | | Must match an entity `name` exactly |
-| `cardinality` | string | yes | | `"1"`, `"N"`, `"M"`, etc. Becomes the edge label |
-| `role` | string | no | | For recursive relationships (same entity twice) |
-| `isTotalParticipation` | boolean | no | `false` | Draw the entity–relationship edge as a double line; `true` means total participation, `false` means partial participation |
-
-## Validation rules (Part 2)
-
-1. Entity names are unique.
-2. Every relationship has at least 2 participants.
-3. Every `participants[].entity` names an existing entity.
-4. No attribute is both `isPrimaryKey` and `isMultiValued`, or both `isPartialKey` and `isMultiValued`.
-5. No attribute is both `isPrimaryKey` and `isPartialKey`.
-6. Every non-weak entity has at least one `isPrimaryKey` attribute and no `isPartialKey` attribute.
-7. Every weak entity has at least one `isPartialKey` attribute and no `isPrimaryKey` attribute.
-8. A weak entity takes part in at least one identifying relationship.
-9. An identifying relationship includes at least one weak and one non-weak entity.
-10. Key flags (`isPrimaryKey`, `isPartialKey`) appear only on top-level entity attributes.
+| Key | Type | Required | Default | Notes                                                                                                                   |
+|---|---|---|---|-------------------------------------------------------------------------------------------------------------------------|
+| `entity` | string | yes | | Must match an entity `name` exactly                                                                                     |
+| `cardinality` | string | yes | | `"1"`, `"N"`, `"M"`, etc. Becomes the edge label                                                                        |
+| `isTotalParticipation` | boolean | no | `false` | Draw the entity–relationship edge with penwidth=2; `true` means total participation, `false` means partial participation |
 
 ## Full example
 
@@ -174,9 +160,3 @@ Rules:
 }
 ```
 
-## Notes
-
-- JSON keys are camelCase (`isPrimaryKey`, `isPartialKey`, `isMultiValued`, `isWeak`, `isIdentifying`). In `classes.py` the multivalued field is currently named `isMultiValue`, but `fromDict` reads the JSON key `isMultiValued`, so that is fine.
-- `isWeak` / `isIdentifying` are drawn with `peripheries="2"` in the renderer.
-- `isPartialKey` is drawn as a dashed underline (HTML-like label table with a dashed bottom border).
-- Part 1 trusts its input; Part 2 runs `validate()` before rendering.
