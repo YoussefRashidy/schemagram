@@ -97,10 +97,11 @@ Rules:
 }
 ```
 
-| Key | Type | Required | Default | Notes                                                                                                                   |
-|---|---|---|---|-------------------------------------------------------------------------------------------------------------------------|
-| `entity` | string | yes | | Must match an entity `name` exactly                                                                                     |
-| `cardinality` | string | yes | | `"1"`, `"N"`, `"M"`, etc. Becomes the edge label                                                                        |
+| Key | Type | Required | Default | Notes                                                                                                                    |
+|---|---|---|---|--------------------------------------------------------------------------------------------------------------------------|
+| `entity` | string | yes | | Must match an entity `name` exactly                                                                                      |
+| `cardinality` | string | yes | | `"1"`, `"N"`, `"M"`, etc. Becomes the edge label                                                                         |
+| `role` | string | no | | For recursive relationships (same entity twice)                                                                          |
 | `isTotalParticipation` | boolean | no | `false` | Draw the entity–relationship edge with penwidth=2; `true` means total participation, `false` means partial participation |
 
 ## Full example
@@ -159,4 +160,3 @@ Rules:
   ]
 }
 ```
-

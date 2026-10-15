@@ -57,7 +57,8 @@ def renderERDiagram(data ,out: str , engine: str = 'dot') -> None:
         graph.node(relationshipId, label=relationship.name, shape='diamond', peripheries=peripheries)
         for p in relationship.participants:
             penwidth = "2" if p.isTotalParticipation else "1"
-            graph.edge(relationshipId, entitiesIds[p.entity], label=p.cardinality,penwidth=penwidth)
+            label = f"{p.role} ({p.cardinality})" if p.role else p.cardinality
+            graph.edge(relationshipId, entitiesIds[p.entity], label=label,penwidth=penwidth)
         for attribute in relationship.attributes:
             renderAttribute(attribute, relationshipId)
 

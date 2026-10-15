@@ -37,11 +37,13 @@ class Entity:
 class Participant:
     entity: str
     cardinality: str
+    role: str = ""
     isTotalParticipation: bool = False
     @classmethod
     def fromDict(cls, d: dict) -> "Participant":
         return cls(entity = d["entity"],
                    cardinality = d["cardinality"],
+                   role = d.get("role", ""),
                    isTotalParticipation = d.get("isTotalParticipation", False))
 
 @dataclass
