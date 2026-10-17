@@ -6,14 +6,14 @@ from classes import ERDiagram, Attribute, Entity, Relationship
 from model import generateJson
 
 
-def renderERDiagram(data ,out: str , engine: str = 'dot') -> None:
+def renderERDiagram(data ,out: str , engine: str = 'neato') -> None:
     erdiagram : ERDiagram = ERDiagram.fromDict(data)
     counter = itertools.count()
     entitiesIds : dict = {}
     graph = graphviz.Graph(
         format='png',
         engine=engine,
-        graph_attr={'overlap': 'false', 'splines': 'true', 'sep': '+8', 'dpi': '200'},
+        graph_attr={'overlap': 'false', 'splines': 'true', 'sep': '+12', 'dpi': '200'},
         node_attr={'fontname': 'Times-Roman', 'fontsize': '10'},
         edge_attr={'penwidth': '0.6', 'fontname': 'Times-Roman', 'fontsize': '10'}
         )
@@ -36,7 +36,7 @@ def renderERDiagram(data ,out: str , engine: str = 'dot') -> None:
     def renderEntity(entity: Entity) :
         entityId = getId()
         peripheries = "2" if entity.isWeak else "1"
-        graph.node(entityId,label=entity.name,shape='box',peripheries=peripheries,style='filled', fillcolor='gray', color='gray',)
+        graph.node(entityId,label=entity.name,shape='box',peripheries=peripheries,style='filled', fillcolor='gray', color='black',)
         entitiesIds[entity.name] = entityId
         for attribute in entity.attributes:
             renderAttribute(attribute, entityId)
@@ -54,7 +54,7 @@ def renderERDiagram(data ,out: str , engine: str = 'dot') -> None:
     def renderRelationship(relationship : Relationship):
         relationshipId = getId()
         peripheries = "2" if relationship.isIdentifying else "1"
-        graph.node(relationshipId, label=relationship.name, shape='diamond', peripheries=peripheries,style='filled', fillcolor='gray', color='gray')
+        graph.node(relationshipId, label=relationship.name, shape='diamond', peripheries=peripheries,style='filled', fillcolor='gray', color='black')
         for p in relationship.participants:
             penwidth = "2" if p.isTotalParticipation else "1"
             label = f"{p.role} ({p.cardinality})" if p.role else p.cardinality
