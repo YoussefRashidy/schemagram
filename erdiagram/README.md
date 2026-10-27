@@ -38,7 +38,7 @@ pip install graphviz google-genai python-dotenv
 
 ## Configuration
 
-Only needed for text-description input. Create a `.env` file next to `main.py`:
+Only needed for text-description input. Create a `../.env` file next to `main.py`:
 
 ```env
 GEMINI_API_KEY=your_api_key_here

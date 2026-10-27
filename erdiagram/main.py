@@ -6,7 +6,7 @@ from classes import ERDiagram, Attribute, Entity, Relationship
 from model import generateJson
 
 
-def renderERDiagram(data ,out: str , engine: str = 'neato') -> None:
+def renderERDiagram(data ,out: str , engine: str = 'sfdp') -> None:
     erdiagram : ERDiagram = ERDiagram.fromDict(data)
     counter = itertools.count()
     entitiesIds : dict = {}
