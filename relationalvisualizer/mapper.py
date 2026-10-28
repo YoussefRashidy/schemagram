@@ -1,5 +1,5 @@
 from erdiagram.classes import ERDiagram, Entity, Attribute, Relationship
-from relationalvisualizer.classes import Column, Table, ForeignKey
+from relationalvisualizer.classes import Column, TableSchema, ForeignKey
 
 
 def gettingIdentifyingEntity(entity: Entity, relationships: list, entitiesByName: dict) -> list[Entity]:
@@ -11,7 +11,7 @@ def gettingIdentifyingEntity(entity: Entity, relationships: list, entitiesByName
 def mapERDiagram(er_diagram: ERDiagram):
     tables = []
     entitiesByName = {entity.name: entity for entity in er_diagram.entities}
-    mappedTables: dict[str, Table] = {}
+    mappedTables: dict[str, TableSchema] = {}
     mappingTables: set[str] = set()
 
     def mapEntity(entity: Entity):
@@ -46,8 +46,8 @@ def mapERDiagram(er_diagram: ERDiagram):
             multiValueColumns = [Column(name=attr.name, isPrimaryKey=True) for attr in mapAttribute(attribute)]
             fk = ForeignKey(refTable=table_name, columns=[col.name for col in entityColumns],
                             refColumns=[col.name for col in entityColumns])
-            return Table(name=f"{table_name}_{attribute.name}", columns=entityColumns + multiValueColumns,
-                         foreignKeys=[fk])
+            return TableSchema(name=f"{table_name}_{attribute.name}", columns=entityColumns + multiValueColumns,
+                               foreignKeys=[fk])
 
         for attribute in entity.attributes:
             if attribute.isDerived:
@@ -61,7 +61,7 @@ def mapERDiagram(er_diagram: ERDiagram):
 
         for multiAttribute in multivalued:
             tables.append(mapMultiValuedAttribute(multiAttribute))
-        return Table(name=table_name, columns=columns, foreignKeys=[])
+        return TableSchema(name=table_name, columns=columns, foreignKeys=[])
 
     def mapWeekEntity(entity: Entity):
         owners = [mapEntity(owner) for owner in
@@ -81,11 +81,11 @@ def mapERDiagram(er_diagram: ERDiagram):
                 raise ValueError("Weak entity cannot have multivalued attributes")
             columns.extend(mapAttribute(attribute, isPrimaryKey=False))
 
-        return Table(name=entity.name, columns=columns, foreignKeys=fks)
+        return TableSchema(name=entity.name, columns=columns, foreignKeys=fks)
 
     def addForeignKey(
-            targetTable: Table,
-            referencedTable: Table,
+            targetTable: TableSchema,
+            referencedTable: TableSchema,
             prefix: str | None = None,
     ):
         primaryKeys = [
@@ -116,7 +116,7 @@ def mapERDiagram(er_diagram: ERDiagram):
             )
         )
 
-    def addRelationShipAttributesToTable(table: Table, relationship: Relationship):
+    def addRelationShipAttributesToTable(table: TableSchema, relationship: Relationship):
         for attr in relationship.attributes:
             if attr.isDerived:
                 continue
@@ -157,7 +157,7 @@ def mapERDiagram(er_diagram: ERDiagram):
                 fks.append(ForeignKey(refTable=table.name, columns=fksColumns,
                                       refColumns=[col.name for col in table.columns if col.isPrimaryKey]))
 
-            junctionTable = Table(name=tableName, columns=columns, foreignKeys=fks)
+            junctionTable = TableSchema(name=tableName, columns=columns, foreignKeys=fks)
             addRelationShipAttributesToTable(junctionTable, relationShip)
 
             tables.append(junctionTable)
@@ -176,7 +176,7 @@ def mapERDiagram(er_diagram: ERDiagram):
             fks.append(ForeignKey(refTable=table.name, columns=fksColumns,
                                   refColumns=[col.name for col in table.columns if col.isPrimaryKey]))
 
-        junctionTable = Table(name=tableName, columns=columns, foreignKeys=fks)
+        junctionTable = TableSchema(name=tableName, columns=columns, foreignKeys=fks)
         addRelationShipAttributesToTable(junctionTable, relationShip)
 
         tables.append(junctionTable)

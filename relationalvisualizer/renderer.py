@@ -1,7 +1,7 @@
 import html
 import graphviz
 
-from relationalvisualizer.classes import Table, DBSchema
+from relationalvisualizer.classes import TableSchema, DBSchema
 
 
 FONT = "Helvetica"
@@ -13,7 +13,7 @@ def renderSchema(schema: DBSchema , out : str):
 
     def port(i):
         return f"c{i}"
-    def renderTable(table: Table):
+    def renderTable(table: TableSchema):
         columns = [f'<TD BGCOLOR="#2b4c7e"><FONT COLOR="white"><B>{html.escape(table.name)}</B></FONT></TD>']
         for i, column in enumerate(table.columns):
             col_name = html.escape(column.name)
