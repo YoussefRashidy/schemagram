@@ -121,11 +121,9 @@ class Lexer:
     def tokenizeString(self):
         start = self.position
         self.position += 1
-        char = self.source[self.position]
-        while self.position < self.length and char != '"':
+        while self.position < self.length and self.source[self.position] != '"':
             self.position += 1
-            char = self.source[self.position]
-        if self.position == self.length and char != '"':
+        if self.position == self.length and self.source[self.position-1] != '"':
             raise SyntaxError(f"Invalid string at position {start}")
 
         value = self.source[start+1:self.position]
