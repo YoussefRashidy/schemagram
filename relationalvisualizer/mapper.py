@@ -180,3 +180,15 @@ def mapERDiagram(er_diagram: ERDiagram):
         addRelationShipAttributesToTable(junctionTable, relationShip)
 
         tables.append(junctionTable)
+
+    for entity in er_diagram.entities:
+        tables.append(mapEntity(entity))
+    for relationship in er_diagram.relationships:
+        if relationship.isIdentifying:
+            continue
+        if len(relationship.participants) == 2:
+            mapBinaryRelation(relationship)
+        else:
+            mapNaryRelation(relationship)
+
+    return tables

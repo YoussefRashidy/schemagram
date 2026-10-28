@@ -4,6 +4,8 @@ import graphviz
 import json
 from classes import ERDiagram, Attribute, Entity, Relationship
 from model import generateJson
+from relationalvisualizer.classes import Column, ForeignKey, Table, DBSchema
+from relationalvisualizer.renderer import renderSchema
 
 
 def renderERDiagram(data ,out: str , engine: str = 'sfdp') -> None:
@@ -113,8 +115,22 @@ def main() -> None:
         print(f"Error: {e}")
 
 
+# ---------- the example in your screenshot ----------
 if __name__ == "__main__":
-    main()
+    schema = DBSchema([
+        Table("Employee",
+              [Column("SSN", True), Column("FirstName"),
+               Column("DeptID", False, True), Column("SuperSSN", False, True)],
+              [ForeignKey("Department", ["DeptID"], ["DeptID"]),
+               ForeignKey("Employee", ["SuperSSN"], ["SSN"])]),
+        Table("Department", [Column("DeptID", True), Column("Name")]),
+        Table("Works_On",
+              [Column("SSN", True, True), Column("ProjID", True, True), Column("Hours")],
+              [ForeignKey("Employee", ["SSN"], ["SSN"]),
+               ForeignKey("Project", ["ProjID"], ["ProjID"])]),
+        Table("Project", [Column("ProjID", True), Column("Title")]),
+    ])
+    renderSchema(schema, "schema_test")   # writes schema_test.png
 
 
 
