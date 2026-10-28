@@ -1,6 +1,6 @@
 import re
 
-from relationalvisualizer.queryexecutor.Tokens import Token, TokenType
+from queryexecutor.Tokens import Token, TokenType
 
 KEYWORDS = {
     "SELECT": TokenType.SELECT,

@@ -37,5 +37,5 @@ class TokenType(Enum):
 @dataclass(frozen=True)
 class Token:
     type: TokenType
-    value: Any
+    value: int | float | str | None
     position: int
