@@ -42,7 +42,7 @@ def mapERDiagram(er_diagram: ERDiagram):
         multivalued = []
 
         def mapMultiValuedAttribute(attribute: Attribute):
-            entityColumns = [Column(name=attr.name, isPrimaryKey=True) for attr in primaryKeys]
+            entityColumns = [Column(name=attr.name, isPrimaryKey=True , isForeignKey=True) for attr in primaryKeys]
             multiValueColumns = [Column(name=attr.name, isPrimaryKey=True) for attr in mapAttribute(attribute)]
             fk = ForeignKey(refTable=table_name, columns=[col.name for col in entityColumns],
                             refColumns=[col.name for col in entityColumns])
@@ -96,7 +96,7 @@ def mapERDiagram(er_diagram: ERDiagram):
         fkColumns = []
 
         for pk in primaryKeys:
-            name = f"{prefix}_{pk.name}" if prefix else pk.name
+            name = f"{prefix or referencedTable.name}_{pk.name}" if prefix else pk.name
 
             targetTable.columns.append(
                 Column(
