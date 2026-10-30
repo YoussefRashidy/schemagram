@@ -3,9 +3,23 @@ from relationalvisualizer.classes import Column, TableSchema, ForeignKey
 
 
 def gettingIdentifyingEntity(entity: Entity, relationships: list, entitiesByName: dict) -> list[Entity]:
-    identifyingRelationships = next(rel for rel in relationships if
-                                    rel.isIdentifying and any(part.entity == entity.name for part in rel.participants))
-    return [entitiesByName[part.entity] for part in identifyingRelationships.participants if part.entity != entity.name]
+    identifyingRelationship = next(
+        (
+            rel for rel in relationships
+            if rel.isIdentifying
+               and any(part.entity == entity.name for part in rel.participants)
+        ),
+        None,
+    )
+    if identifyingRelationship is None:
+        raise ValueError(
+            f"Weak entity {entity.name} has no identifying relationship"
+        )
+    return [
+        entitiesByName[part.entity]
+        for part in identifyingRelationship.participants
+        if part.entity != entity.name
+    ]
 
 
 def mapERDiagram(er_diagram: ERDiagram):
@@ -42,7 +56,7 @@ def mapERDiagram(er_diagram: ERDiagram):
         multivalued = []
 
         def mapMultiValuedAttribute(attribute: Attribute):
-            entityColumns = [Column(name=attr.name, isPrimaryKey=True , isForeignKey=True) for attr in primaryKeys]
+            entityColumns = [Column(name=attr.name, isPrimaryKey=True, isForeignKey=True) for attr in primaryKeys]
             multiValueColumns = [Column(name=attr.name, isPrimaryKey=True) for attr in mapAttribute(attribute)]
             fk = ForeignKey(refTable=table_name, columns=[col.name for col in entityColumns],
                             refColumns=[col.name for col in entityColumns])
@@ -81,6 +95,10 @@ def mapERDiagram(er_diagram: ERDiagram):
                 raise ValueError("Weak entity cannot have multivalued attributes")
             columns.extend(mapAttribute(attribute, isPrimaryKey=False))
 
+        if not any(column.isPrimaryKey and not column.isForeignKey for column in columns):
+            raise ValueError(
+                f"Weak entity {entity.name} must have a partial key"
+            )
         return TableSchema(name=entity.name, columns=columns, foreignKeys=fks)
 
     def addForeignKey(
@@ -128,6 +146,50 @@ def mapERDiagram(er_diagram: ERDiagram):
         participants1, participants2 = relationShip.participants
         table1, table2 = mapEntity(entitiesByName[participants1.entity]), mapEntity(
             entitiesByName[participants2.entity])
+
+        if participants1.entity == participants2.entity:
+            if participants1.cardinality == "1" and participants2.cardinality == "1":
+                target = table1
+                referenced = table1
+                prefix = participants2.role or "related"
+                addForeignKey(target, referenced, prefix=prefix)
+                addRelationShipAttributesToTable(target, relationShip)
+            elif participants1.cardinality == "1":
+                target = table1
+                referenced = table1
+                prefix = participants1.role or "related"
+                addForeignKey(target, referenced, prefix=prefix)
+                addRelationShipAttributesToTable(target, relationShip)
+            elif participants2.cardinality == "1":
+                target = table2
+                referenced = table2
+                prefix = participants1.role or "related"
+                addForeignKey(target, referenced, prefix=prefix)
+                addRelationShipAttributesToTable(target, relationShip)
+            else:
+                tableName = relationShip.name
+                columns = []
+                fks = []
+                for index, participant in enumerate(relationShip.participants):
+                    prefix = participant.role or f"role{index + 1}"
+                    fkColumns = []
+                    for pk in [col for col in table1.columns if col.isPrimaryKey]:
+                        columnName = f"{prefix}_{pk.name}"
+                        columns.append(Column(
+                            name=columnName,
+                            isPrimaryKey=True,
+                            isForeignKey=True,
+                        ))
+                        fkColumns.append(columnName)
+                    fks.append(ForeignKey(
+                        refTable=table1.name,
+                        columns=fkColumns,
+                        refColumns=[col.name for col in table1.columns if col.isPrimaryKey],
+                    ))
+                junctionTable = TableSchema(name=tableName, columns=columns, foreignKeys=fks)
+                addRelationShipAttributesToTable(junctionTable, relationShip)
+                tables.append(junctionTable)
+            return
 
         if participants1.cardinality == "1" and participants2.cardinality == "1":
             totalParticipation1, totalParticipation2 = participants1.isTotalParticipation, participants2.isTotalParticipation
@@ -185,6 +247,15 @@ def mapERDiagram(er_diagram: ERDiagram):
         tables.append(mapEntity(entity))
     for relationship in er_diagram.relationships:
         if relationship.isIdentifying:
+            weakParticipants = [
+                participant for participant in relationship.participants
+                if entitiesByName[participant.entity].isWeak
+            ]
+            if len(weakParticipants) == 1:
+                addRelationShipAttributesToTable(
+                    mappedTables[weakParticipants[0].entity],
+                    relationship,
+                )
             continue
         if len(relationship.participants) == 2:
             mapBinaryRelation(relationship)
