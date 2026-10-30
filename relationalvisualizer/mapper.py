@@ -228,15 +228,44 @@ def mapERDiagram(er_diagram: ERDiagram):
         tableName = relationShip.name
         columns = []
         fks = []
+        participantColumns = []
 
         for participant in relationShip.participants:
             table = mapEntity(entitiesByName[participant.entity])
             fksColumns = []
+            participantKeyColumns = []
             for pk in [col for col in table.columns if col.isPrimaryKey]:
-                columns.append(Column(name=f"{table.name}_{pk.name}", isPrimaryKey=True, isForeignKey=True))
-                fksColumns.append(f"{table.name}_{pk.name}")
+                columnName = f"{table.name}_{pk.name}"
+                participantKeyColumns.append(columnName)
+                fksColumns.append(columnName)
             fks.append(ForeignKey(refTable=table.name, columns=fksColumns,
                                   refColumns=[col.name for col in table.columns if col.isPrimaryKey]))
+            participantColumns.append(participantKeyColumns)
+
+        oneSideCount = sum(participant.cardinality == "1" for participant in relationShip.participants)
+
+        if oneSideCount == 1:
+            primaryKeyParticipants = [
+                index for index, participant in enumerate(relationShip.participants)
+                if participant.cardinality != "1"
+            ]
+        else:
+            # With zero or multiple one-sides, cardinality alone does not
+            # identify one unambiguous minimal candidate key.
+            primaryKeyParticipants = list(range(len(relationShip.participants)))
+
+        primaryKeyColumns = {
+            columnName
+            for index in primaryKeyParticipants
+            for columnName in participantColumns[index]
+        }
+        for participantKeyColumns in participantColumns:
+            for columnName in participantKeyColumns:
+                columns.append(Column(
+                    name=columnName,
+                    isPrimaryKey=columnName in primaryKeyColumns,
+                    isForeignKey=True,
+                ))
 
         junctionTable = TableSchema(name=tableName, columns=columns, foreignKeys=fks)
         addRelationShipAttributesToTable(junctionTable, relationShip)
