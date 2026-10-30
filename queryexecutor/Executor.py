@@ -97,12 +97,12 @@ class Executor:
     def execRelation(self, node):
         relation = self.db.get(node.name)
         if relation is None:
-            raise TypeError(f"Unknown Relation: {node.name}")
+            raise NameError(f"Unknown Relation: {node.name}")
         return relation
 
     def execSelect(self, node):
         queryResult = self.execute(node.query)
-        tuples = [t for t in queryResult.rows if self.evalCondition(node.condition,t)]
+        tuples = [t for t in queryResult.rows if self.evalCondition(node.condition,queryResult,t)]
         return Result(queryResult.columns, tuples)
 
 
@@ -112,13 +112,22 @@ class Executor:
         tuples = dict.fromkeys(tuple(t[i] for i in indices) for t in queryResult.rows)
         return Result([queryResult.columns[i] for i in indices], list(tuples))
 
+    def checkCompatible(self,l: Result, r: Result, op: str) -> None:
+        if len(l.columns) != len(r.columns):
+            raise TypeError(
+                f"{op}: operands have different arity "
+                f"({len(l.columns)} vs {len(r.columns)})"
+            )
+
 
     def execUnion(self, node):
         left , right = self.execute(node.left) , self.execute(node.right)
+        self.checkCompatible(left, right, "UNION")
         return Result(left.columns, list(dict.fromkeys(left.rows + right.rows)))
 
     def execIntersect(self, node):
         left, right = self.execute(node.left), self.execute(node.right)
+        self.checkCompatible(left, right, "INTERSECT")
         rightSet = set(right.rows)
         return Result(left.columns , [row for row in left.rows if row in rightSet])
 
@@ -129,18 +138,19 @@ class Executor:
         for t1 in left.rows:
             for t2 in right.rows:
                 row = t1+t2
-                if self.evalCondition(node.cond,row):
+                if self.evalCondition(node.condition, jointTable, row):
                     jointTable.rows.append(row)
         return jointTable
 
 
     def execDifference(self, node):
         left, right = self.execute(node.left), self.execute(node.right)
+        self.checkCompatible(left, right, "DIFFERENCE")
         rightSet = set(right.rows)
         return Result(left.columns , [row for row in left.rows if row not in rightSet])
 
     def execAggregate(self, node):
-        function = self.AGGREGATES[node.function]
+        function = self.AGGREGATES.get(node.function)
         if function is None:
             raise ValueError(f"Unknown aggregate function {node.function}")
         queryResult = self.execute(node.query)

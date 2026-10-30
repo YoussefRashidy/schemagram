@@ -21,6 +21,6 @@ def loadDatabase(filePath: str) -> Database:
 
         db[tableName] = Result(
             columns=[Column(n, tableName) for n in names],
-            rows=[tuple(r.get(n) for n in names) for r in records],
+            rows=list(dict.fromkeys(tuple(r.get(n) for n in names) for r in records)),
         )
     return db
