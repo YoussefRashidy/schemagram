@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 
 
@@ -10,13 +9,13 @@ class Relation:
 @dataclass
 class Select:
     condition: "Condition"
-    source: "Query"
+    query: "Query"
 
 
 @dataclass
 class Project:
     columns: list["ColumnRef"]
-    source: "Query"
+    query: "Query"
 
 
 @dataclass
@@ -48,7 +47,7 @@ class Difference:
 class Aggregate:
     function: str
     column: "ColumnRef"
-    source: "Query"
+    query: "Query"
 
 
 # ---------- Conditions ----------
@@ -84,10 +83,8 @@ class ColumnRef:
 class Literal:
     value: int | float | str
 
+
 Condition = Comparison | And | Or
 Operand = ColumnRef | Literal
 
-Query = Relation| Select| Project| Join| Union| Intersect| Difference| Aggregate
-
-
-
+Query = Relation | Select | Project | Join | Union | Intersect | Difference | Aggregate

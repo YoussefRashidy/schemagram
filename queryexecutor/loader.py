@@ -1,15 +1,26 @@
 import json
+from classes import Column, Result
 
-from relationalvisualizer.classes import DataBase, TableSchema, Column, Table
+Database = dict[str, Result]
 
+def loadDatabase(filePath: str) -> Database:
+    with open(filePath) as f:
+        data = json.load(f)
 
-def loadDataBase(filePath : str):
-    with open(filePath) as json_file:
-        data = json.load(json_file)
+    db: Database = {}
+    for tableName, records in data.items():
+        # union of keys across ALL records, in first-seen order
+        names = list(dict.fromkeys(k for r in records for k in r))
 
-    tables : dict[str, Table] = {}
-    for tableName , rows in data.items():
-        columns = list(rows[0].keys())
-        schema = TableSchema(tableName, columns = [Column(columnName) for columnName in columns])
-        tables[tableName] = Table(schema,rows)
-    return DataBase(tables)
+        for r in records:
+            for k, v in r.items():
+                if isinstance(v, (list, dict)):
+                    raise ValueError(
+                        f"{tableName}.{k}: nested values are not supported"
+                    )
+
+        db[tableName] = Result(
+            columns=[Column(n, tableName) for n in names],
+            rows=[tuple(r.get(n) for n in names) for r in records],
+        )
+    return db
