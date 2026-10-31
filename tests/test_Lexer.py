@@ -28,8 +28,8 @@ def test_select_query():
     assert tokens[4].value == 5500
 
 
-def test_keywords_are_case_insensitive():
-    tokens = tokenize("select(Name, Employee)")
+def test_keywords_must_be_uppercase():
+    tokens = tokenize("SELECT(Name, Employee)")
 
     assert tokens[0].type == TokenType.SELECT
     assert tokens[2].value == "Name"

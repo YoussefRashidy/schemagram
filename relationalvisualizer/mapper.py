@@ -56,10 +56,20 @@ def mapERDiagram(er_diagram: ERDiagram):
         multivalued = []
 
         def mapMultiValuedAttribute(attribute: Attribute):
-            entityColumns = [Column(name=attr.name, isPrimaryKey=True, isForeignKey=True) for attr in primaryKeys]
+            entityColumns = [
+                Column(
+                    name=f"{table_name}_{attr.name}",
+                    isPrimaryKey=True,
+                    isForeignKey=True,
+                )
+                for attr in primaryKeys
+            ]
             multiValueColumns = [Column(name=attr.name, isPrimaryKey=True) for attr in mapAttribute(attribute)]
-            fk = ForeignKey(refTable=table_name, columns=[col.name for col in entityColumns],
-                            refColumns=[col.name for col in entityColumns])
+            fk = ForeignKey(
+                refTable=table_name,
+                columns=[col.name for col in entityColumns],
+                refColumns=[attr.name for attr in primaryKeys],
+            )
             return TableSchema(name=f"{table_name}_{attribute.name}", columns=entityColumns + multiValueColumns,
                                foreignKeys=[fk])
 
@@ -85,9 +95,16 @@ def mapERDiagram(er_diagram: ERDiagram):
         for owner in owners:
             ownerPK = [col for col in owner.columns if col.isPrimaryKey]
             for pk in ownerPK:
-                columns.append(Column(name=pk.name, isPrimaryKey=True, isForeignKey=True))
-            fks.append(ForeignKey(refTable=owner.name, columns=[col.name for col in ownerPK],
-                                  refColumns=[col.name for col in ownerPK]))
+                columns.append(Column(
+                    name=f"{owner.name}_{pk.name}",
+                    isPrimaryKey=True,
+                    isForeignKey=True,
+                ))
+            fks.append(ForeignKey(
+                refTable=owner.name,
+                columns=[f"{owner.name}_{col.name}" for col in ownerPK],
+                refColumns=[col.name for col in ownerPK],
+            ))
         for attribute in entity.attributes:
             if attribute.isDerived:
                 continue
@@ -114,7 +131,7 @@ def mapERDiagram(er_diagram: ERDiagram):
         fkColumns = []
 
         for pk in primaryKeys:
-            name = f"{prefix or referencedTable.name}_{pk.name}" if prefix else pk.name
+            name = f"{prefix or referencedTable.name}_{pk.name}"
 
             targetTable.columns.append(
                 Column(
