@@ -45,4 +45,4 @@ def renderSchema(schema: DBSchema , out : str):
                 else:
                     fromDirection , toDirection = "s" , "n"
                 dot.edge(f"{table.name}:{ports[table.name][col]}:{fromDirection}" , f"{fk.refTable}:{ports[fk.refTable][ref]}:{toDirection}")
-    dot.render(out , format="png", cleanup=True)
+    return dot.render(out, format="png", cleanup=True)
