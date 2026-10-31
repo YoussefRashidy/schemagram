@@ -22,6 +22,27 @@ def gettingIdentifyingEntity(entity: Entity, relationships: list, entitiesByName
     ]
 
 
+def checkNameCollisions(tables: list[TableSchema]) -> None:
+    seen = set()
+    for table in tables:
+        if table.name in seen:
+            raise ValueError(
+                f"Two tables are both called '{table.name}'. "
+                f"Rename the entity, relationship or multivalued attribute that produces one of them."
+            )
+        seen.add(table.name)
+
+    for table in tables:
+        names = [column.name for column in table.columns]
+        duplicates = sorted({name for name in names if names.count(name) > 1})
+        if duplicates:
+            raise ValueError(
+                f"Table '{table.name}' ends up with more than one column named "
+                f"{', '.join(repr(d) for d in duplicates)}. Rename the clashing attributes, or give the "
+                f"participants of the relationships that create them different \"role\" values."
+            )
+
+
 def mapERDiagram(er_diagram: ERDiagram):
     tables = []
     entitiesByName = {entity.name: entity for entity in er_diagram.entities}
@@ -308,4 +329,5 @@ def mapERDiagram(er_diagram: ERDiagram):
         else:
             mapNaryRelation(relationship)
 
+    checkNameCollisions(tables)
     return tables

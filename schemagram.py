@@ -1,19 +1,5 @@
-#!/usr/bin/env python3
-"""Schemagram - main CLI.
-
-  render   ER diagram (JSON)  ->  relational schema diagram (PNG / SVG / PDF)
-  query    JSON tables        ->  relational-algebra shell (REPL, -e, or script)
-
-Examples
-  python schemagram.py render examples/university_er.json -o out/university_schema
-  python schemagram.py query  examples/university_db.json
-  python schemagram.py query  examples/university_db.json -f examples/university_queries.rql
-  python schemagram.py query  a.json b.json -e 'PROJECT([Title], Course)'
-"""
-
-
 QUERY_HELP = """\
-Query syntax (prefix, nestable; keywords are case-insensitive, '==' is equality)
+Query syntax (prefix, nestable; keywords are case-sensitive, '==' is equality)
   <Table>                                    a base table
   SELECT(<cond>, <q>)                        rows of <q> satisfying <cond>
   PROJECT([a, T.b, ...], <q>)                keep the listed columns (duplicates removed)
@@ -66,7 +52,7 @@ def runQueries() -> None:
     files = input("Enter the table JSON file(s), separated by commas: ").split(",")
     db = loadDatabases([f.strip() for f in files if f.strip()])
     print("Loaded tables: " + ", ".join(f"{name} ({len(t.rows)} rows)" for name, t in db.items()))
-
+    print(QUERY_HELP)
     executor = Executor(db)
     print("Type a query, or 'quit' to go back.")
     while True:
