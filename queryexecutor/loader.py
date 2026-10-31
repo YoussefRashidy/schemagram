@@ -1,5 +1,5 @@
 import json
-from classes import Column, Result
+from queryexecutor.classes import Column, Result
 
 Database = dict[str, Result]
 
@@ -23,4 +23,15 @@ def loadDatabase(filePath: str) -> Database:
             columns=[Column(n, tableName) for n in names],
             rows=list(dict.fromkeys(tuple(r.get(n) for n in names) for r in records)),
         )
+    return db
+
+
+def loadDatabases(filePaths: list[str]) -> Database:
+    """Load and merge several JSON files; a table name may appear only once."""
+    db: Database = {}
+    for filePath in filePaths:
+        for name, table in loadDatabase(filePath).items():
+            if name in db:
+                raise ValueError(f"Table '{name}' (from {filePath}) is defined more than once")
+            db[name] = table
     return db

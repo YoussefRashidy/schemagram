@@ -89,7 +89,7 @@ class Lexer:
             else:
                 break
         value: str = self.source[start:self.position]
-        tokenType: TokenType = KEYWORDS.get(value.upper(), TokenType.IDENTIFIER)
+        tokenType: TokenType = KEYWORDS.get(value, TokenType.IDENTIFIER)
         return Token(value=value, type=tokenType, position=start)
 
     def isNumberStart(self):

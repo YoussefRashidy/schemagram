@@ -163,7 +163,7 @@ def mapERDiagram(er_diagram: ERDiagram):
             elif participants2.cardinality == "1":
                 target = table2
                 referenced = table2
-                prefix = participants1.role or "related"
+                prefix = participants2.role or "related"
                 addForeignKey(target, referenced, prefix=prefix)
                 addRelationShipAttributesToTable(target, relationShip)
             else:

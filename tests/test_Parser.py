@@ -1,8 +1,8 @@
 import pytest
 
-from Tokens import Token, TokenType
-from Parser import Parser
-from ASTNodes import (
+from queryexecutor.Tokens import Token, TokenType
+from queryexecutor.Parser import Parser
+from queryexecutor.ASTNodes import (
     Relation,
     Select,
     Project,

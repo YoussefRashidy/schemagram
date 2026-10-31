@@ -1,9 +1,9 @@
 from typing import Any
 
 from relationalvisualizer.classes import *
-from ASTNodes import *
-from loader import Database
-from classes import *
+from queryexecutor.ASTNodes import *
+from queryexecutor.loader import Database
+from queryexecutor.classes import *
 import operator
 class Executor:
     OPS = {

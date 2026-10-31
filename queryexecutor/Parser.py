@@ -1,5 +1,5 @@
-from Tokens import Token, TokenType
-from ASTNodes import *
+from queryexecutor.Tokens import Token, TokenType
+from queryexecutor.ASTNodes import *
 
 class Parser:
     def __init__(self, tokens: list[Token]):

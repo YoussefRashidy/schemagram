@@ -2,8 +2,8 @@ import html
 import itertools
 import graphviz
 import json
-from classes import ERDiagram, Attribute, Entity, Relationship
-from model import generateJson
+from erdiagram.classes import ERDiagram, Attribute, Entity, Relationship
+from erdiagram.model import generateJson
 from relationalvisualizer.classes import Column, ForeignKey, TableSchema, DBSchema
 from relationalvisualizer.renderer import renderSchema
 
@@ -131,6 +131,5 @@ if __name__ == "__main__":
         TableSchema("Project", [Column("ProjID", True), Column("Title")]),
     ])
     renderSchema(schema, "schema_test")   # writes schema_test.png
-
 
 
