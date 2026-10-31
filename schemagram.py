@@ -8,11 +8,6 @@ Query syntax (prefix, nestable; keywords are case-sensitive, '==' is equality)
   AGGREGATE(<COUNT|SUM|AVG|MIN|MAX>, <col>, <q>)
   <cond>: comparisons (== != < > <= >=) of columns / numbers / "strings", joined by AND, OR, ( )
   Qualify a column with its table when it is ambiguous:  Student.StudentID
-
-Shell commands
-  .tables              list loaded tables          .schema [T]   show columns of one/all tables
-  .show T              print a whole table         .ast <query>  print the parsed syntax tree
-  .load FILE [FILE..]  load more JSON files        .help  .quit
 """
 
 import json

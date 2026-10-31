@@ -113,6 +113,7 @@ def mapERDiagram(er_diagram: ERDiagram):
                   gettingIdentifyingEntity(entity, er_diagram.relationships, entitiesByName)]
         columns = []
         fks = []
+        multivalued = []
         for owner in owners:
             ownerPK = [col for col in owner.columns if col.isPrimaryKey]
             for pk in ownerPK:
@@ -126,18 +127,47 @@ def mapERDiagram(er_diagram: ERDiagram):
                 columns=[f"{owner.name}_{col.name}" for col in ownerPK],
                 refColumns=[col.name for col in ownerPK],
             ))
+
         for attribute in entity.attributes:
             if attribute.isDerived:
                 continue
             if attribute.isMultiValue:
-                raise ValueError("Weak entity cannot have multivalued attributes")
+                multivalued.append(attribute)
+                continue
             columns.extend(mapAttribute(attribute, isPrimaryKey=False))
 
         if not any(column.isPrimaryKey and not column.isForeignKey for column in columns):
             raise ValueError(
                 f"Weak entity {entity.name} must have a partial key"
             )
-        return TableSchema(name=entity.name, columns=columns, foreignKeys=fks)
+
+        table = TableSchema(name=entity.name, columns=columns, foreignKeys=fks)
+        primaryKeys = [column for column in table.columns if column.isPrimaryKey]
+
+        for attribute in multivalued:
+            entityColumns = [
+                Column(
+                    name=column.name,
+                    isPrimaryKey=True,
+                    isForeignKey=True,
+                )
+                for column in primaryKeys
+            ]
+            multiValueColumns = [
+                Column(name=column.name, isPrimaryKey=True)
+                for column in mapAttribute(attribute)
+            ]
+            tables.append(TableSchema(
+                name=f"{entity.name}_{attribute.name}",
+                columns=entityColumns + multiValueColumns,
+                foreignKeys=[ForeignKey(
+                    refTable=entity.name,
+                    columns=[column.name for column in entityColumns],
+                    refColumns=[column.name for column in primaryKeys],
+                )],
+            ))
+
+        return table
 
     def addForeignKey(
             targetTable: TableSchema,
