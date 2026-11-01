@@ -1,0 +1,11 @@
+Student
+SELECT(GPA >= 3.5, Student)
+PROJECT([FirstName, LastName, GPA], SELECT(GPA >= 3.5 AND Department_DeptID == 1, Student))
+JOIN(Student.Department_DeptID == Department.DeptID, Student, Department)
+PROJECT([FirstName, DeptName], JOIN(Student.Department_DeptID == Department.DeptID, Student, Department))
+AGGREGATE(AVG, GPA, Student)
+AGGREGATE(COUNT, StudentID, SELECT(GPA < 2.5, Student))
+PROJECT([Title, InstructorName], JOIN(Course.Instructor_InstructorID == Instructor.InstructorID, Course, Instructor))
+DIFFERENCE(PROJECT([StudentID], Student), PROJECT([Student_StudentID], Enrolled_In))
+UNION(PROJECT([Course_CourseID], Section), PROJECT([CourseID], Course))
+PROJECT([FirstName, Title, Grade], JOIN(Enrolled_In.Course_CourseID == Course.CourseID, JOIN(Student.StudentID == Enrolled_In.Student_StudentID, Student, Enrolled_In), Course))

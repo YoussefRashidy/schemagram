@@ -1,0 +1,83 @@
+{
+  "entities": [
+    {
+      "name": "Student",
+      "attributes": [
+        { "name": "StudentID", "isPrimaryKey": true },
+        { "name": "Name", "composite": [ { "name": "FirstName" }, { "name": "LastName" } ] },
+        { "name": "GPA" },
+        { "name": "Age", "isDerived": true },
+        { "name": "Phone", "isMultiValued": true }
+      ]
+    },
+    {
+      "name": "Department",
+      "attributes": [
+        { "name": "DeptID", "isPrimaryKey": true },
+        { "name": "DeptName" }
+      ]
+    },
+    {
+      "name": "Course",
+      "attributes": [
+        { "name": "CourseID", "isPrimaryKey": true },
+        { "name": "Title" },
+        { "name": "Credits" }
+      ]
+    },
+    {
+      "name": "Instructor",
+      "attributes": [
+        { "name": "InstructorID", "isPrimaryKey": true },
+        { "name": "InstructorName" }
+      ]
+    },
+    {
+      "name": "Section",
+      "isWeak": true,
+      "attributes": [
+        { "name": "SectionNo", "isPartialKey": true },
+        { "name": "Semester" }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Majors_In",
+      "participants": [
+        { "entity": "Student", "cardinality": "N", "isTotalParticipation": true },
+        { "entity": "Department", "cardinality": "1" }
+      ]
+    },
+    {
+      "name": "Enrolled_In",
+      "participants": [
+        { "entity": "Student", "cardinality": "N" },
+        { "entity": "Course", "cardinality": "M" }
+      ],
+      "attributes": [ { "name": "Grade" } ]
+    },
+    {
+      "name": "Teaches",
+      "participants": [
+        { "entity": "Instructor", "cardinality": "1" },
+        { "entity": "Course", "cardinality": "N", "isTotalParticipation": true }
+      ]
+    },
+    {
+      "name": "Has_Section",
+      "isIdentifying": true,
+      "participants": [
+        { "entity": "Course", "cardinality": "1" },
+        { "entity": "Section", "cardinality": "N", "isTotalParticipation": true }
+      ]
+    },
+    {
+      "name": "Mentors",
+      "participants": [
+        { "entity": "Student", "cardinality": "1", "role": "Mentor" },
+        { "entity": "Student", "cardinality": "N", "role": "Mentee" }
+      ]
+    }
+  ]
+}

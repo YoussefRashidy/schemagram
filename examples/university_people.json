@@ -1,0 +1,302 @@
+{
+ "Student": [
+  {
+   "StudentID": 1,
+   "FirstName": "Sara",
+   "LastName": "Kamel",
+   "GPA": 3.87,
+   "Department_DeptID": 2,
+   "Mentor_StudentID": null
+  },
+  {
+   "StudentID": 2,
+   "FirstName": "Omar",
+   "LastName": "Hassan",
+   "GPA": 2.24,
+   "Department_DeptID": 3,
+   "Mentor_StudentID": null
+  },
+  {
+   "StudentID": 3,
+   "FirstName": "Youssef",
+   "LastName": "Farouk",
+   "GPA": 2.78,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": null
+  },
+  {
+   "StudentID": 4,
+   "FirstName": "Mariam",
+   "LastName": "Fouad",
+   "GPA": 2.5,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": null
+  },
+  {
+   "StudentID": 5,
+   "FirstName": "Ahmed",
+   "LastName": "Zaki",
+   "GPA": 2.88,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 1
+  },
+  {
+   "StudentID": 6,
+   "FirstName": "Nour",
+   "LastName": "Fouad",
+   "GPA": 2.89,
+   "Department_DeptID": 3,
+   "Mentor_StudentID": 1
+  },
+  {
+   "StudentID": 7,
+   "FirstName": "Hassan",
+   "LastName": "Saleh",
+   "GPA": 3.28,
+   "Department_DeptID": 3,
+   "Mentor_StudentID": 1
+  },
+  {
+   "StudentID": 8,
+   "FirstName": "Laila",
+   "LastName": "Rashed",
+   "GPA": 3.19,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 2
+  },
+  {
+   "StudentID": 9,
+   "FirstName": "Karim",
+   "LastName": "Hassan",
+   "GPA": 3.14,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 3
+  },
+  {
+   "StudentID": 10,
+   "FirstName": "Salma",
+   "LastName": "Zaki",
+   "GPA": 2.37,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 3
+  },
+  {
+   "StudentID": 11,
+   "FirstName": "Tarek",
+   "LastName": "Fouad",
+   "GPA": 3.63,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 1
+  },
+  {
+   "StudentID": 12,
+   "FirstName": "Dina",
+   "LastName": "Rashed",
+   "GPA": 3.17,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 3
+  },
+  {
+   "StudentID": 13,
+   "FirstName": "Mostafa",
+   "LastName": "Farouk",
+   "GPA": 3.12,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 1
+  },
+  {
+   "StudentID": 14,
+   "FirstName": "Hana",
+   "LastName": "Rashed",
+   "GPA": 2.49,
+   "Department_DeptID": 4,
+   "Mentor_StudentID": 4
+  },
+  {
+   "StudentID": 15,
+   "FirstName": "Ali",
+   "LastName": "Kamel",
+   "GPA": 2.97,
+   "Department_DeptID": 2,
+   "Mentor_StudentID": 3
+  },
+  {
+   "StudentID": 16,
+   "FirstName": "Farida",
+   "LastName": "Nabil",
+   "GPA": 2.56,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 2
+  },
+  {
+   "StudentID": 17,
+   "FirstName": "Ziad",
+   "LastName": "Farouk",
+   "GPA": 3.17,
+   "Department_DeptID": 3,
+   "Mentor_StudentID": 4
+  },
+  {
+   "StudentID": 18,
+   "FirstName": "Mona",
+   "LastName": "Kamel",
+   "GPA": 3.46,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 1
+  },
+  {
+   "StudentID": 19,
+   "FirstName": "Adel",
+   "LastName": "Farouk",
+   "GPA": 3.06,
+   "Department_DeptID": 1,
+   "Mentor_StudentID": 3
+  },
+  {
+   "StudentID": 20,
+   "FirstName": "Rana",
+   "LastName": "Mansour",
+   "GPA": 3.85,
+   "Department_DeptID": 2,
+   "Mentor_StudentID": 1
+  }
+ ],
+ "Department": [
+  {
+   "DeptID": 1,
+   "DeptName": "Computer Engineering"
+  },
+  {
+   "DeptID": 2,
+   "DeptName": "Electrical Engineering"
+  },
+  {
+   "DeptID": 3,
+   "DeptName": "Mechanical Engineering"
+  },
+  {
+   "DeptID": 4,
+   "DeptName": "Architecture"
+  }
+ ],
+ "Instructor": [
+  {
+   "InstructorID": 101,
+   "InstructorName": "Dr. Amira Said"
+  },
+  {
+   "InstructorID": 102,
+   "InstructorName": "Dr. Khaled Younis"
+  },
+  {
+   "InstructorID": 103,
+   "InstructorName": "Dr. Heba Ragab"
+  },
+  {
+   "InstructorID": 104,
+   "InstructorName": "Dr. Ibrahim Naguib"
+  }
+ ],
+ "Student_Phone": [
+  {
+   "Student_StudentID": 1,
+   "Phone": "01084903659"
+  },
+  {
+   "Student_StudentID": 1,
+   "Phone": "01255650450"
+  },
+  {
+   "Student_StudentID": 2,
+   "Phone": "01289774974"
+  },
+  {
+   "Student_StudentID": 2,
+   "Phone": "01587832216"
+  },
+  {
+   "Student_StudentID": 3,
+   "Phone": "01022562241"
+  },
+  {
+   "Student_StudentID": 4,
+   "Phone": "01599141000"
+  },
+  {
+   "Student_StudentID": 5,
+   "Phone": "01051554798"
+  },
+  {
+   "Student_StudentID": 6,
+   "Phone": "01548197765"
+  },
+  {
+   "Student_StudentID": 6,
+   "Phone": "01599745048"
+  },
+  {
+   "Student_StudentID": 7,
+   "Phone": "01071967692"
+  },
+  {
+   "Student_StudentID": 8,
+   "Phone": "01191996233"
+  },
+  {
+   "Student_StudentID": 9,
+   "Phone": "01517912728"
+  },
+  {
+   "Student_StudentID": 10,
+   "Phone": "01227359750"
+  },
+  {
+   "Student_StudentID": 11,
+   "Phone": "01163404922"
+  },
+  {
+   "Student_StudentID": 11,
+   "Phone": "01576640001"
+  },
+  {
+   "Student_StudentID": 12,
+   "Phone": "01170288912"
+  },
+  {
+   "Student_StudentID": 13,
+   "Phone": "01228377915"
+  },
+  {
+   "Student_StudentID": 14,
+   "Phone": "01265740154"
+  },
+  {
+   "Student_StudentID": 15,
+   "Phone": "01540970943"
+  },
+  {
+   "Student_StudentID": 16,
+   "Phone": "01033651543"
+  },
+  {
+   "Student_StudentID": 17,
+   "Phone": "01198384612"
+  },
+  {
+   "Student_StudentID": 18,
+   "Phone": "01075090595"
+  },
+  {
+   "Student_StudentID": 19,
+   "Phone": "01145265254"
+  },
+  {
+   "Student_StudentID": 19,
+   "Phone": "01210549434"
+  },
+  {
+   "Student_StudentID": 20,
+   "Phone": "01581751584"
+  }
+ ]
+}
