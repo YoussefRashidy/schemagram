@@ -63,27 +63,8 @@ def runQueries() -> None:
 
 
 def main() -> None:
-    print("=== Schemagram ===")
-    while True:
-        print("\n1. Render relational schema from an ER diagram file")
-        print("2. Load tables and run queries")
-        print("3. Exit")
-        choice = input("Enter your choice (1/2/3): ").strip()
-
-        if choice == "3":
-            break
-        if choice not in ("1", "2"):
-            print("Invalid choice. Please enter 1, 2 or 3.")
-            continue
-
-        try:
-            renderRelationalSchema() if choice == "1" else runQueries()
-        except FileNotFoundError as e:
-            print(f"Error: File '{e.filename}' not found.")
-        except json.JSONDecodeError as e:
-            print(f"Error: Invalid JSON data. {e}")
-        except Exception as e:
-            print(f"Error: {e}")
+    from tui import main as tui_main
+    tui_main()
 
 
 if __name__ == "__main__":

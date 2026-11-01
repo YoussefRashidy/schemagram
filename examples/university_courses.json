@@ -1,0 +1,471 @@
+{
+ "Course": [
+  {
+   "CourseID": "CSE111",
+   "Title": "Programming 1",
+   "Credits": 3,
+   "Instructor_InstructorID": 101
+  },
+  {
+   "CourseID": "CSE211",
+   "Title": "Data Structures",
+   "Credits": 3,
+   "Instructor_InstructorID": 101
+  },
+  {
+   "CourseID": "CSE321",
+   "Title": "Operating Systems",
+   "Credits": 4,
+   "Instructor_InstructorID": 102
+  },
+  {
+   "CourseID": "CSE331",
+   "Title": "Databases",
+   "Credits": 3,
+   "Instructor_InstructorID": 103
+  },
+  {
+   "CourseID": "CSE351",
+   "Title": "Compilers",
+   "Credits": 4,
+   "Instructor_InstructorID": 102
+  },
+  {
+   "CourseID": "EEE201",
+   "Title": "Circuits",
+   "Credits": 3,
+   "Instructor_InstructorID": 104
+  },
+  {
+   "CourseID": "MTH101",
+   "Title": "Calculus",
+   "Credits": 3,
+   "Instructor_InstructorID": 104
+  },
+  {
+   "CourseID": "CSE322",
+   "Title": "Software Engineering",
+   "Credits": 3,
+   "Instructor_InstructorID": 103
+  }
+ ],
+ "Section": [
+  {
+   "Course_CourseID": "CSE111",
+   "SectionNo": 1,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "CSE111",
+   "SectionNo": 2,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "CSE211",
+   "SectionNo": 1,
+   "Semester": "Fall 2025"
+  },
+  {
+   "Course_CourseID": "CSE211",
+   "SectionNo": 2,
+   "Semester": "Fall 2025"
+  },
+  {
+   "Course_CourseID": "CSE321",
+   "SectionNo": 1,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "CSE321",
+   "SectionNo": 2,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "CSE331",
+   "SectionNo": 1,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "CSE331",
+   "SectionNo": 2,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "CSE351",
+   "SectionNo": 1,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "CSE351",
+   "SectionNo": 2,
+   "Semester": "Fall 2025"
+  },
+  {
+   "Course_CourseID": "EEE201",
+   "SectionNo": 1,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "EEE201",
+   "SectionNo": 2,
+   "Semester": "Spring 2026"
+  },
+  {
+   "Course_CourseID": "MTH101",
+   "SectionNo": 1,
+   "Semester": "Fall 2025"
+  },
+  {
+   "Course_CourseID": "MTH101",
+   "SectionNo": 2,
+   "Semester": "Fall 2025"
+  },
+  {
+   "Course_CourseID": "CSE322",
+   "SectionNo": 1,
+   "Semester": "Fall 2025"
+  },
+  {
+   "Course_CourseID": "CSE322",
+   "SectionNo": 2,
+   "Semester": "Fall 2025"
+  }
+ ],
+ "Enrolled_In": [
+  {
+   "Student_StudentID": 1,
+   "Course_CourseID": "CSE321",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 1,
+   "Course_CourseID": "CSE111",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 1,
+   "Course_CourseID": "CSE322",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 1,
+   "Course_CourseID": "CSE351",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 1,
+   "Course_CourseID": "MTH101",
+   "Grade": "C+"
+  },
+  {
+   "Student_StudentID": 2,
+   "Course_CourseID": "CSE211",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 2,
+   "Course_CourseID": "MTH101",
+   "Grade": "C"
+  },
+  {
+   "Student_StudentID": 3,
+   "Course_CourseID": "CSE351",
+   "Grade": "C+"
+  },
+  {
+   "Student_StudentID": 3,
+   "Course_CourseID": "CSE321",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 3,
+   "Course_CourseID": "CSE322",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 4,
+   "Course_CourseID": "CSE322",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 4,
+   "Course_CourseID": "CSE331",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 5,
+   "Course_CourseID": "CSE211",
+   "Grade": "B-"
+  },
+  {
+   "Student_StudentID": 5,
+   "Course_CourseID": "CSE322",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 5,
+   "Course_CourseID": "CSE111",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 5,
+   "Course_CourseID": "CSE321",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 6,
+   "Course_CourseID": "EEE201",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 6,
+   "Course_CourseID": "CSE211",
+   "Grade": "B-"
+  },
+  {
+   "Student_StudentID": 6,
+   "Course_CourseID": "CSE322",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 7,
+   "Course_CourseID": "EEE201",
+   "Grade": "C+"
+  },
+  {
+   "Student_StudentID": 7,
+   "Course_CourseID": "CSE211",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 7,
+   "Course_CourseID": "CSE321",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 7,
+   "Course_CourseID": "MTH101",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 8,
+   "Course_CourseID": "CSE331",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 8,
+   "Course_CourseID": "CSE211",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 8,
+   "Course_CourseID": "CSE351",
+   "Grade": "B-"
+  },
+  {
+   "Student_StudentID": 8,
+   "Course_CourseID": "CSE322",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 8,
+   "Course_CourseID": "CSE321",
+   "Grade": "B-"
+  },
+  {
+   "Student_StudentID": 9,
+   "Course_CourseID": "EEE201",
+   "Grade": "C+"
+  },
+  {
+   "Student_StudentID": 9,
+   "Course_CourseID": "CSE331",
+   "Grade": "C+"
+  },
+  {
+   "Student_StudentID": 9,
+   "Course_CourseID": "CSE322",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 10,
+   "Course_CourseID": "CSE211",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 10,
+   "Course_CourseID": "CSE322",
+   "Grade": "C+"
+  },
+  {
+   "Student_StudentID": 10,
+   "Course_CourseID": "CSE331",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 11,
+   "Course_CourseID": "CSE111",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 11,
+   "Course_CourseID": "CSE331",
+   "Grade": "C"
+  },
+  {
+   "Student_StudentID": 11,
+   "Course_CourseID": "EEE201",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 11,
+   "Course_CourseID": "CSE321",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 11,
+   "Course_CourseID": "CSE322",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 12,
+   "Course_CourseID": "EEE201",
+   "Grade": "C"
+  },
+  {
+   "Student_StudentID": 12,
+   "Course_CourseID": "CSE111",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 12,
+   "Course_CourseID": "CSE322",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 12,
+   "Course_CourseID": "CSE331",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 12,
+   "Course_CourseID": "CSE351",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 13,
+   "Course_CourseID": "CSE321",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 13,
+   "Course_CourseID": "CSE351",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 14,
+   "Course_CourseID": "EEE201",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 14,
+   "Course_CourseID": "CSE211",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 14,
+   "Course_CourseID": "CSE351",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 14,
+   "Course_CourseID": "CSE322",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 14,
+   "Course_CourseID": "MTH101",
+   "Grade": "C"
+  },
+  {
+   "Student_StudentID": 15,
+   "Course_CourseID": "CSE331",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 15,
+   "Course_CourseID": "CSE111",
+   "Grade": "B-"
+  },
+  {
+   "Student_StudentID": 15,
+   "Course_CourseID": "CSE321",
+   "Grade": "B"
+  },
+  {
+   "Student_StudentID": 16,
+   "Course_CourseID": "CSE351",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 16,
+   "Course_CourseID": "CSE322",
+   "Grade": "C+"
+  },
+  {
+   "Student_StudentID": 16,
+   "Course_CourseID": "CSE331",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 16,
+   "Course_CourseID": "CSE211",
+   "Grade": "C"
+  },
+  {
+   "Student_StudentID": 17,
+   "Course_CourseID": "CSE321",
+   "Grade": "A"
+  },
+  {
+   "Student_StudentID": 17,
+   "Course_CourseID": "CSE351",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 17,
+   "Course_CourseID": "MTH101",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 18,
+   "Course_CourseID": "CSE321",
+   "Grade": "B+"
+  },
+  {
+   "Student_StudentID": 18,
+   "Course_CourseID": "CSE211",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 19,
+   "Course_CourseID": "CSE111",
+   "Grade": null
+  },
+  {
+   "Student_StudentID": 19,
+   "Course_CourseID": "CSE321",
+   "Grade": "A-"
+  },
+  {
+   "Student_StudentID": 20,
+   "Course_CourseID": "CSE331",
+   "Grade": "B-"
+  },
+  {
+   "Student_StudentID": 20,
+   "Course_CourseID": "CSE211",
+   "Grade": "A"
+  }
+ ]
+}

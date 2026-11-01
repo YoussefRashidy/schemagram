@@ -1,0 +1,4 @@
+graphviz
+google-genai
+python-dotenv
+textual
