@@ -3,7 +3,6 @@ import itertools
 import graphviz
 import json
 from erdiagram.classes import ERDiagram, Attribute, Entity, Relationship
-from erdiagram.model import generateJson
 from relationalvisualizer.classes import Column, ForeignKey, TableSchema, DBSchema
 from relationalvisualizer.renderer import renderSchema
 
@@ -15,9 +14,11 @@ def renderERDiagram(data ,out: str , engine: str = 'sfdp') -> None:
     graph = graphviz.Graph(
         format='png',
         engine=engine,
-        graph_attr={'overlap': 'false', 'splines': 'true', 'sep': '+12', 'dpi': '200'},
-        node_attr={'fontname': 'Times-Roman', 'fontsize': '10'},
-        edge_attr={'penwidth': '0.6', 'fontname': 'Times-Roman', 'fontsize': '10'}
+        graph_attr={'overlap': 'false', 'splines': 'true', 'sep': '+14', 'dpi': '200',
+                    'bgcolor': 'white', 'pad': '0.4'},
+        node_attr={'fontname': 'Helvetica', 'fontsize': '11', 'fontcolor': '#1f2a44'},
+        edge_attr={'penwidth': '1.1', 'color': '#7a8fb5', 'fontname': 'Helvetica-Bold',
+                   'fontsize': '11', 'fontcolor': '#c0392b'}
         )
 
     def getId() -> str :
@@ -38,7 +39,9 @@ def renderERDiagram(data ,out: str , engine: str = 'sfdp') -> None:
     def renderEntity(entity: Entity) :
         entityId = getId()
         peripheries = "2" if entity.isWeak else "1"
-        graph.node(entityId,label=entity.name,shape='box',peripheries=peripheries,style='filled', fillcolor='gray', color='black',)
+        graph.node(entityId, label=f'<<B>{html.escape(entity.name)}</B>>', shape='box', peripheries=peripheries,
+                   style='filled,rounded', fillcolor='#2b4c7e', fontcolor='white', color='#2b4c7e',
+                   fontsize='13', penwidth='1.6', margin='0.2,0.12')
         entitiesIds[entity.name] = entityId
         for attribute in entity.attributes:
             renderAttribute(attribute, entityId)
@@ -47,7 +50,10 @@ def renderERDiagram(data ,out: str , engine: str = 'sfdp') -> None:
         attributeId = f"{entityId}_{attribute.name}"
         peripheries = "2" if attribute.isMultiValue else "1"
         style = "dashed" if attribute.isDerived else "solid"
-        graph.node(attributeId, label=getAttributeLabel(attribute), shape='ellipse',style=style,peripheries=peripheries)
+        fill = '#fff3c4' if (attribute.isPrimaryKey or attribute.isPartialKey) else '#eef3fb'
+        border = '#c9a227' if (attribute.isPrimaryKey or attribute.isPartialKey) else '#7a8fb5'
+        graph.node(attributeId, label=getAttributeLabel(attribute), shape='ellipse',
+                   style=f'filled,{style}', fillcolor=fill, color=border, peripheries=peripheries)
         graph.edge(entityId, attributeId)
 
         for innerAttribute in attribute.composite :
@@ -56,11 +62,13 @@ def renderERDiagram(data ,out: str , engine: str = 'sfdp') -> None:
     def renderRelationship(relationship : Relationship):
         relationshipId = getId()
         peripheries = "2" if relationship.isIdentifying else "1"
-        graph.node(relationshipId, label=relationship.name, shape='diamond', peripheries=peripheries,style='filled', fillcolor='gray', color='black')
+        graph.node(relationshipId, label=relationship.name, shape='diamond', peripheries=peripheries,
+                   style='filled', fillcolor='#ffd9a8', color='#d9822b', penwidth='1.4', margin='0.05')
         for p in relationship.participants:
-            penwidth = "2" if p.isTotalParticipation else "1"
+            penwidth = "2.6" if p.isTotalParticipation else "1.1"
             label = f"{p.role} ({p.cardinality})" if p.role else p.cardinality
-            graph.edge(relationshipId, entitiesIds[p.entity], label=label,penwidth=penwidth)
+            graph.edge(relationshipId, entitiesIds[p.entity], label=label, penwidth=penwidth,
+                   color='#2b4c7e' if p.isTotalParticipation else '#7a8fb5')
         for attribute in relationship.attributes:
             renderAttribute(attribute, relationshipId)
 
@@ -73,6 +81,7 @@ def renderERDiagram(data ,out: str , engine: str = 'sfdp') -> None:
 
 
 def main() -> None:
+    from erdiagram.model import generateJson  # lazy: needs the Gemini package + API key
     print("=== ER Diagram Generator ===")
     print("Choose your input format:")
     print("1. JSON file")
@@ -115,21 +124,5 @@ def main() -> None:
         print(f"Error: {e}")
 
 
-# ---------- the example in your screenshot ----------
-if __name__ == "__main__":
-    schema = DBSchema([
-        TableSchema("Employee",
-                    [Column("SSN", True), Column("FirstName"),
-               Column("DeptID", False, True), Column("SuperSSN", False, True)],
-                    [ForeignKey("Department", ["DeptID"], ["DeptID"]),
-               ForeignKey("Employee", ["SuperSSN"], ["SSN"])]),
-        TableSchema("Department", [Column("DeptID", True), Column("Name")]),
-        TableSchema("Works_On",
-                    [Column("SSN", True, True), Column("ProjID", True, True), Column("Hours")],
-                    [ForeignKey("Employee", ["SSN"], ["SSN"]),
-               ForeignKey("Project", ["ProjID"], ["ProjID"])]),
-        TableSchema("Project", [Column("ProjID", True), Column("Title")]),
-    ])
-    renderSchema(schema, "schema_test")   # writes schema_test.png
 
 

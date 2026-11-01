@@ -166,7 +166,7 @@ class Parser:
         return self.parseComparison()
 
     OP_SYMBOLS = {
-        TokenType.EQ: "=",
+        TokenType.EQ: "==",
         TokenType.NE: "!=",
         TokenType.LT: "<",
         TokenType.GT: ">",

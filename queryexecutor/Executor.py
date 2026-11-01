@@ -7,7 +7,7 @@ from queryexecutor.classes import *
 import operator
 class Executor:
     OPS = {
-        "=": operator.eq,
+        "==": operator.eq,
         "!=": operator.ne,
         "<": operator.lt,
         ">": operator.gt,

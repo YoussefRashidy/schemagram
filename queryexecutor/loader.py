@@ -9,7 +9,6 @@ def loadDatabase(filePath: str) -> Database:
 
     db: Database = {}
     for tableName, records in data.items():
-        # union of keys across ALL records, in first-seen order
         names = list(dict.fromkeys(k for r in records for k in r))
 
         for r in records:
